@@ -37,7 +37,21 @@ if(is_readable(__DIR__."/from.csv")){
             $res = $sth->fetchAll(PDO::FETCH_ASSOC);
             if(!empty($res)){
                 echo "FIND BY NAME LINE $line ".$res[0]['title'].PHP_EOL;
-                fputs($fileResultHandler,implode(",",$res[0]).$buffer);
+                $csvLine = str_getcsv($buffer);
+                $resultData = array(
+                    '',
+                    '',
+                    '',
+                    $res[0]['title'],
+                    $res[0]['composer'],
+                    $res[0]['composer'],
+                    $csvLine[3],
+                    'да',
+                    'нет',
+                    'Comp Music Publishing',
+                    'Comp Music Publishing',
+                );
+                fputcsv($fileResultHandler,$resultData);
             }else{
                 preg_match("/.*?(\d+)_(\d+).*?\./",$data[2],$trackID);
                 $trackIDFull = $trackID[1]."_".$trackID[2];
@@ -47,7 +61,21 @@ if(is_readable(__DIR__."/from.csv")){
                 $resultTrackID = $sthTrackID->fetchAll(PDO::FETCH_ASSOC);
                 if(!empty($resultTrackID)){
                     echo "FIND BY ID $line ".$resultTrackID[0]['title'].PHP_EOL;
-                    fputs($fileResultHandler,implode(",",$resultTrackID[0]).$buffer);
+                    $csvLine = str_getcsv($buffer);
+                    $resultData = array(
+                        '',
+                        '',
+                        '',
+                        $resultTrackID[0]['title'],
+                        $resultTrackID[0]['composer'],
+                        $resultTrackID[0]['composer'],
+                        $csvLine[3],
+                        'да',
+                        'нет',
+                        'Comp Music Publishing',
+                        'Comp Music Publishing',
+                    );
+                    fputcsv($fileResultHandler,$resultData);
                 }else{
                     echo "!!! NOT FOUND $line !!! $buffer".PHP_EOL;
                 }
